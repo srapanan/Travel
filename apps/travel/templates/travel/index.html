@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset="utf-8">
+    <title>Travel Dashboard</title>
+  </head>
+  <body>
+  <div align = "center">
+  <h1>Welcome, {{request.session.user.first_name}}!</h1>
+    <h2>Your Trip Schedules</h2>
+    <table>
+      <tr>
+        <th>Destination</th>
+        <th>Travel Start Date</th>
+        <th>Travel End Date</th>
+        <th>Plan</th>
+      </tr>
+      {%if mytrips%}
+      {%for trips in mytrips%}
+      <tr>
+        <td><a href="{% url 'travel:destination' trips.id %}">{{trips.destination}}</a></td>
+        <td>{{trips.date_from}}</td>
+        <td>{{trips.date_to}}</td>
+        <td>{{trips.decription}}</td>
+      </tr>
+      {%endfor%}
+      {%endif%}
+      {% if jointrips%}
+      {%for info in jointrips%}
+        <td><a href="{% url 'travel:destination' info.id %}">{{info.destination}}</a></td>
+        <td>{{info.date_from}}</td>
+        <td>{{info.date_to}}</td>
+        <td>{{info.decription}}</td>
+      </tr>
+      {%endfor%}
+      {%endif%}
+    </table>
+    <h2>Other User's Tavel Plans</h2>
+    <table>
+      <tr>
+        <th>Destination</th>
+        <th>Travel Start Date</th>
+        <th>Travel End Date</th>
+        <th>Do you want to Join?</th>
+      </tr>
+      {%if alltrips%}
+      {%for trips in alltrips%}
+      {{trips.groupie.}}
+      <tr>
+        <td><a href="{% url 'travel:destination' trips.id %}">{{trips.destination}}</a></td>
+        <td>{{trips.date_from}}</td>
+        <td>{{trips.date_to}}</td>
+        <td>{{trips.decription}}</td>
+          {%if request.session.user.id != trips.me.id %}
+        <td><a href="{% url 'travel:join' trips.id %}">Join</a></td>
+        {%endif%}
+      </tr>
+      {%endfor%}
+      {%endif%}
+    </table>
+  <a href="{% url 'travel:add' %}">Add a travel plan</a>
+  <a href="{% url 'login:logout'%}">Logout</a>
+</div>
+  </body>
+</html>
